@@ -1,0 +1,26 @@
+Incident 1 — 2026-01-14: Distribution Shift at New Site
+Patient chest X-rays from the newly onboarded community hospital site were
+classified as NORMAL with high confidence (>0.95) despite multiple being later
+confirmed as mild pneumonia by radiologists. Root cause: the community hospital
+uses a different X-ray scanner brand with slightly different contrast calibration,
+causing systematic distribution shift from training data. The model had never seen
+images from this scanner during training.
+
+Incident 2 — 2026-01-28: Out-of-Distribution Pediatric Input
+A 4-year-old patient's chest X-ray was misclassified as NORMAL with confidence 0.91.
+The training dataset contained fewer than 200 pediatric cases. The model was
+applied to a population it was not designed for. The radiologist caught the error
+during routine review, but the AI recommendation had already been logged.
+
+Incident 3 — 2026-02-05: Image Artifact Causing Wrong Preprocessing
+A portable X-ray machine produced images with significant motion artifact. The
+preprocessing pipeline did not detect the artifact and processed the degraded image
+through the model. The model output a PNEUMONIA prediction with confidence 0.73,
+but the image was uninterpretable. The case required a retake.
+
+Incident 4 — 2026-02-19: Silent Performance Degradation After Software Update
+Following a library dependency update to the DICOM parsing library, the model's
+accuracy on the internal holdout set dropped from 94.2% to 88.7%. This degradation
+was not detected for 11 days because no automated regression test was run after
+deployment. During this period, approximately 2,400 predictions were made at
+reduced accuracy.

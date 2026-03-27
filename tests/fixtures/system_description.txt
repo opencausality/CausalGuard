@@ -1,0 +1,18 @@
+Pneumonia Detection AI v2.1
+
+This system analyzes chest X-ray images to detect pneumonia and classify severity.
+It accepts DICOM images as input and outputs a binary prediction (pneumonia/no pneumonia)
+along with a confidence score between 0 and 1.
+
+The system is deployed in emergency radiology departments at three hospital sites.
+It processes approximately 200 X-rays per day per site and is integrated into the
+radiology information system (RIS). Predictions are delivered to the requesting
+physician within 2 minutes of image upload.
+
+The model was trained on 50,000 chest X-rays from a single academic medical center.
+It uses a ResNet-50 architecture fine-tuned on the pneumonia classification task.
+Model updates are deployed via a rolling release process without downtime.
+
+Input: DICOM chest X-ray image
+Output: {prediction: "PNEUMONIA" | "NORMAL", confidence: 0.0–1.0}
+Deployment context: Emergency radiology, time-sensitive clinical decisions

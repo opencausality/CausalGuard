@@ -1,0 +1,21 @@
+Mitigation 1: Human radiologist review required for all recommendations
+All AI predictions are presented as decision-support only. A qualified radiologist
+must review and sign off on every AI recommendation before it is included in the
+clinical record. The radiologist can override the AI prediction at any time.
+
+Mitigation 2: Input validation — image quality score check
+Before inference, each DICOM image is assessed by a quality scoring module that
+checks for motion artifact, exposure levels, and field-of-view completeness.
+Images with a quality score below 0.6 are rejected with an "unprocessable image"
+response and flagged for manual radiologist review.
+
+Mitigation 3: Confidence threshold — reject low-confidence predictions
+Predictions with confidence score below 0.70 are not shown to the requesting
+physician. Instead, a "low confidence — radiologist review required" alert is
+sent. This reduces the risk of overconfident wrong predictions reaching clinicians.
+
+Mitigation 4: Monthly performance evaluation against holdout set
+On the first Monday of each month, the model is automatically evaluated against a
+1,000-image internal holdout set. If accuracy drops more than 2 percentage points
+from the baseline, an automated alert is sent to the ML engineering team and
+deployment is paused pending investigation.
